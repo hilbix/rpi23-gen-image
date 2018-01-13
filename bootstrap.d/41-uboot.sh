@@ -13,7 +13,7 @@ if [ "$ENABLE_UBOOT" = true ] ; then
   # Copy existing U-Boot sources into chroot directory
   if [ -n "$UBOOTSRC_DIR" ] && [ -d "$UBOOTSRC_DIR" ] ; then
     # Copy local U-Boot sources
-    cp -r "${UBOOTSRC_DIR}" "${R}/tmp"
+    cp -r "${UBOOTSRC_DIR}/." "${R}/tmp/u-boot"
   else
     # Create temporary directory for U-Boot sources
     temp_dir=$(as_nobody mktemp -d)
@@ -24,12 +24,12 @@ if [ "$ENABLE_UBOOT" = true ] ; then
     # Copy downloaded U-Boot sources
     mv "${temp_dir}/u-boot" "${R}/tmp/"
 
-    # Set permissions of the U-Boot sources
-    chown -R root:root "${R}/tmp/u-boot"
-
     # Remove temporary directory for U-Boot sources
     rm -fr "${temp_dir}"
   fi
+
+  # Set permissions of the U-Boot sources
+  chown -R root:root "${R}/tmp/u-boot"
 
   # Build and install U-Boot inside chroot
   chroot_exec make -j"${KERNEL_THREADS}" -C /tmp/u-boot/ "${UBOOT_CONFIG}" all

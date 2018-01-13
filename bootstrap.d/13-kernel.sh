@@ -23,6 +23,9 @@ if [ "$BUILD_KERNEL" = true ] ; then
     # Copy kernel sources and include hidden files
     cp -r "${KERNELSRC_DIR}/". "${KERNEL_DIR}"
 
+    # Set permissions of the kernel sources
+    chown -R root:root "${R}/usr/src"
+
     # Clean the kernel sources
     if [ "$KERNELSRC_CLEAN" = true ] && [ "$KERNELSRC_PREBUILT" = false ] ; then
       make -C "${KERNEL_DIR}" ARCH="${KERNEL_ARCH}" CROSS_COMPILE="${CROSS_COMPILE}" mrproper
