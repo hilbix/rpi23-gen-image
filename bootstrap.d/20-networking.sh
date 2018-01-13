@@ -88,18 +88,24 @@ if [ "$ENABLE_WIRELESS" = true ] ; then
     mkdir -p ${WLAN_FIRMWARE_DIR}
   fi
 
-  # Create temporary directory for firmware binary blob
-  temp_dir=$(as_nobody mktemp -d)
+  if [ -n "$WLAN_FIRMWARESRC_DIR" ] && [ -d "$WLAN_FIRMWARESRC_DIR" ] ; then
+    # Copy firmwware binaries
+    cp "${WLAN_FIRMWARESRC_DIR}/brcmfmac43430-sdio.bin" "${WLAN_FIRMWARE_DIR}/"
+    cp "${WLAN_FIRMWARESRC_DIR}/brcmfmac43430-sdio.txt" "${WLAN_FIRMWARE_DIR}/"
+  else
+    # Create temporary directory for firmware binary blob
+    temp_dir=$(as_nobody mktemp -d)
 
-  # Fetch firmware binary blob
-  as_nobody wget -q -O "${temp_dir}/brcmfmac43430-sdio.bin" "${WLAN_FIRMWARE_URL}/brcmfmac43430-sdio.bin"
-  as_nobody wget -q -O "${temp_dir}/brcmfmac43430-sdio.txt" "${WLAN_FIRMWARE_URL}/brcmfmac43430-sdio.txt"
+    # Fetch firmware binary blob
+    as_nobody wget -q -O "${temp_dir}/brcmfmac43430-sdio.bin" "${WLAN_FIRMWARE_URL}/brcmfmac43430-sdio.bin"
+    as_nobody wget -q -O "${temp_dir}/brcmfmac43430-sdio.txt" "${WLAN_FIRMWARE_URL}/brcmfmac43430-sdio.txt"
 
-  # Move downloaded firmware binary blob
-  mv "${temp_dir}/brcmfmac43430-sdio."* "${WLAN_FIRMWARE_DIR}/"
+    # Move downloaded firmware binary blob
+    mv "${temp_dir}/brcmfmac43430-sdio."* "${WLAN_FIRMWARE_DIR}/"
 
-  # Remove temporary directory for firmware binary blob
-  rm -fr "${temp_dir}"
+    # Remove temporary directory for firmware binary blob
+    rm -fr "${temp_dir}"
+  fi
 
   # Set permissions of the firmware binary blob
   chown root:root "${WLAN_FIRMWARE_DIR}/brcmfmac43430-sdio."*

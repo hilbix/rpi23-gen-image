@@ -12,7 +12,7 @@ if [ "$ENABLE_FBTURBO" = true ] ; then
   # Copy existing fbturbo sources into chroot directory
   if [ -n "$FBTURBOSRC_DIR" ] && [ -d "$FBTURBOSRC_DIR" ] ; then
     # Copy local fbturbo sources
-    cp -r "${FBTURBOSRC_DIR}" "${R}/tmp"
+    cp -r "${FBTURBOSRC_DIR}/." "${R}/tmp/xf86-video-fbturbo"
   else
     # Create temporary directory for fbturbo sources
     temp_dir=$(as_nobody mktemp -d)

@@ -33,11 +33,11 @@ if [ "$BUILD_KERNEL" = true ] ; then
 
     # Remove temporary directory for boot binaries
     rm -fr "${temp_dir}"
-
-    # Set permissions of the boot binaries
-    chown -R root:root "${BOOT_DIR}"
-    chmod -R 600 "${BOOT_DIR}"
   fi
+
+  # Set permissions of the boot binaries
+  chown -R root:root "${BOOT_DIR}"
+  chmod -R 600 "${BOOT_DIR}"
 fi
 
 # Setup firmware boot cmdline

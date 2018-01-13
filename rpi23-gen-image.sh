@@ -94,6 +94,7 @@ LIB_DIR="${R}/lib"
 BOOT_DIR="${R}/boot/firmware"
 KERNEL_DIR="${R}/usr/src/linux"
 WLAN_FIRMWARE_DIR="${R}/lib/firmware/brcm"
+WLAN_FIRMWARESRC_DIR="${WLAN_FIRMWARESRC_DIR:=}"
 
 # Firmware directory: Blank if download from github
 RPI_FIRMWARE_DIR=${RPI_FIRMWARE_DIR:=""}
@@ -359,6 +360,18 @@ fi
 # Check if specified FBTURBOSRC_DIR directory exists
 if [ -n "$FBTURBOSRC_DIR" ] && [ ! -d "$FBTURBOSRC_DIR" ] ; then
   echo "error: '${FBTURBOSRC_DIR}' specified directory not found (FBTURBOSRC_DIR)!"
+  exit 1
+fi
+
+# Check if specified RPI_FIRMWARE_DIR directory exists
+if [ -n "$RPI_FIRMWARE_DIR" ] && [ ! -d "$RPI_FIRMWARE_DIR" ] ; then
+  echo "error: '${RPI_FIRMWARE_DIR}' specified directory not found (RPI_FIRMWARE_DIR)!"
+  exit 1
+fi
+
+# Check if specified WLAN_FIRMWARESRC_DIR directory exists
+if [ -n "$WLAN_FIRMWARESRC_DIR" ] && [ ! -d "$WLAN_FIRMWARESRC_DIR" ] ; then
+  echo "error: '${WLAN_FIRMWARESRC_DIR}' specified directory not found (WLAN_FIRMWARESRC_DIR)!"
   exit 1
 fi
 
